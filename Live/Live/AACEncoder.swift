@@ -2,8 +2,8 @@
 //  AACEncoder.swift
 //  Capture
 //
-//  Created by VictorChee on 2016/12/22.
-//  Copyright © 2016年 VictorChee. All rights reserved.
+//  Created by wotjd on 2018. 9. 14..
+//  Copyright © 2018년 wotjd. All rights reserved.
 //
 
 /**
@@ -28,14 +28,14 @@ final class AACEncoder: NSObject {
         "muted",
         "bitrate",
         "profile",
-        "sampleRate", // 暂不支持
+        "sampleRate", // not available yet
     ]
     var metaData: [String: Any] {
         var metaData = [String: Any]()
         metaData["audiodatarate"] = bitrate
         metaData["audiosamplerate"] = 44100 // audio sample rate
         metaData["audiosamplesize"] = 16
-        metaData["stereo"] = false //立体声（双通道）
+        metaData["stereo"] = false // 스테레오 (듀얼 채널)
         metaData["audiocodecid"] = 10
         return metaData
     }
@@ -50,7 +50,7 @@ final class AACEncoder: NSObject {
         }
     }
     fileprivate var profile = UInt32(MPEG4ObjectID.AAC_LC.rawValue)
-    /// 关于音频描述信息的 转换后的AAC相关的包
+    /// 오디오 설명 정보를 위한 AAC 관련 패키지 변환
     fileprivate var formatDescription: CMFormatDescription? {
         didSet {
             if !CMFormatDescriptionEqual(formatDescription, oldValue) {
@@ -62,7 +62,7 @@ final class AACEncoder: NSObject {
     fileprivate var currentBufferList: UnsafeMutableAudioBufferListPointer? = nil
     fileprivate var maximumBuffers = 1
     fileprivate var bufferListSize = AudioBufferList.sizeInBytes(maximumBuffers: 1)
-    // PCM数据描述信息，即输入音频格式
+    // 입력 오디오 포맷 (PCM 데이터 정보)
     fileprivate var inSourceFormat: AudioStreamBasicDescription? {
         didSet {
             guard let inSourceFormat = self.inSourceFormat else { return }
@@ -82,23 +82,23 @@ final class AACEncoder: NSObject {
         return unsafeBitCast(inUserData, to: AACEncoder.self).onInputDataForAudioConverter(ioNumberDataPackets: ioNumberDataPackets, ioData: ioData, outDataPacketDescription: outDataPacketDescription)
     }
     
-    /// 目标转换格式，即输出音频格式
+    /// 출력 오디오 형식
     fileprivate var _inDestinationFormat: AudioStreamBasicDescription?
     fileprivate var inDestinationFormat: AudioStreamBasicDescription {
         get {
             if self._inDestinationFormat == nil {
                 self._inDestinationFormat = AudioStreamBasicDescription(
-                    mSampleRate: inSourceFormat!.mSampleRate,// 采样率 44100
-                    mFormatID: kAudioFormatMPEG4AAC, // 压缩编码格式MPEG4-AAC
+                    mSampleRate: inSourceFormat!.mSampleRate,// 샘플레이트 44100
+                    mFormatID: kAudioFormatMPEG4AAC, // 압축 인코딩 형식 MPEG4-AAC
                     mFormatFlags: UInt32(MPEG4ObjectID.aac_Main.rawValue),
                     mBytesPerPacket: 0,
-                    mFramesPerPacket: 1024, // AAC一帧的大小，默认为1024Bytes
+                    mFramesPerPacket: 1024, // AAC 프레임의 크기는 기본값이 1024Bytes
                     mBytesPerFrame: 0, //
-                    mChannelsPerFrame: inSourceFormat!.mChannelsPerFrame, // 采样通道数， ipad4 is 1
-                    mBitsPerChannel: 0, // 可能是采样位数
+                    mChannelsPerFrame: inSourceFormat!.mChannelsPerFrame, // 샘플링 채널 수， ipad4 is 1
+                    mBitsPerChannel: 0, // 샘플 수 일 수도 있습니다.
                     mReserved: 0)//  Pads the structure out to force an even 8-byte alignment. Must be set to 0.
                 
-                CMAudioFormatDescriptionCreate(kCFAllocatorDefault, &self._inDestinationFormat!, 0, nil, 0, nil, nil, &formatDescription) // 这个地方第一次给 formatDescription设置值。
+                CMAudioFormatDescriptionCreate(kCFAllocatorDefault, &self._inDestinationFormat!, 0, nil, 0, nil, nil, &formatDescription) // formatDescription 값 설정
             }
             return self._inDestinationFormat!
         }
@@ -111,7 +111,7 @@ final class AACEncoder: NSObject {
         AudioClassDescription(mType: kAudioEncoderComponentType, mSubType: kAudioFormatMPEG4AAC, mManufacturer: kAppleHardwareAudioCodecManufacturer)
     ]
     
-    /// 为Audio Converter提供数据的回调
+    /// AudioConverter 에 대한 데이터 콜백
     private func onInputDataForAudioConverter(ioNumberDataPackets: UnsafeMutablePointer<UInt32>, ioData: UnsafeMutablePointer<AudioBufferList>, outDataPacketDescription:UnsafeMutablePointer<UnsafeMutablePointer<AudioStreamPacketDescription>?>?) -> OSStatus {
         guard let bufferList = currentBufferList else {
             ioNumberDataPackets.pointee = 0
@@ -131,7 +131,7 @@ final class AACEncoder: NSObject {
             let status = AudioConverterNewSpecific(&self.inSourceFormat!, &self.inDestinationFormat, UInt32(self.inClassDescriptions.count), &inClassDescriptions, &converter)
             if status == noErr {
                 var bitrate: UInt32 = self.bitrate*self.inDestinationFormat.mChannelsPerFrame
-                AudioConverterSetProperty(converter!, kAudioConverterEncodeBitRate, UInt32(MemoryLayout<UInt32>.size), &bitrate) // 设置编码输出码率 32kbps
+                AudioConverterSetProperty(converter!, kAudioConverterEncodeBitRate, UInt32(MemoryLayout<UInt32>.size), &bitrate) // 코드 출력 비트 전송률 설정 32kbps
             }
             self._converter = converter
         }
@@ -139,14 +139,14 @@ final class AACEncoder: NSObject {
     }
     
     private func createAudioBufferList(channels: UInt32, size: UInt32) -> AudioBufferList {
-        let audioBuffer = AudioBuffer(mNumberChannels: channels, mDataByteSize: size, mData: UnsafeMutableRawPointer.allocate(bytes: MemoryLayout<UInt32>.size(ofValue: size), alignedTo: MemoryLayout<UInt32>.alignment(ofValue: size)))
+        let audioBuffer = AudioBuffer(mNumberChannels: channels, mDataByteSize: size, mData: UnsafeMutableRawPointer.allocate(byteCount: MemoryLayout<UInt32>.size(ofValue: size), alignment: MemoryLayout<UInt32>.alignment(ofValue: size)))
         return AudioBufferList(mNumberBuffers: 1, mBuffers: audioBuffer)
     }
     
     func encode(sampleBuffer: CMSampleBuffer) {
         guard isRunning, let format = CMSampleBufferGetFormatDescription(sampleBuffer) else { return }
         if inSourceFormat == nil {
-            inSourceFormat = CMAudioFormatDescriptionGetStreamBasicDescription(format)?.pointee // 获取原始 PCM 信息
+            inSourceFormat = CMAudioFormatDescriptionGetStreamBasicDescription(format)?.pointee // PCM 정보
         }
         
         var blockBuffer: CMBlockBuffer?
@@ -173,8 +173,8 @@ final class AACEncoder: NSObject {
             let numSamples = CMSampleBufferGetNumSamples(sampleBuffer)
             CMSampleBufferCreate(kCFAllocatorDefault, nil, false, nil, nil, formatDescription, numSamples, 1, &timing, 0, nil, &outputBuffer)
             CMSampleBufferSetDataBufferFromAudioBufferList(outputBuffer!, kCFAllocatorDefault, kCFAllocatorDefault, 0, outputData.unsafePointer)
-            // 编码后输出的音频包
-            delegate?.didGetAACSampleBuffer(outputBuffer) // 编码完成的数据
+            // 인코딩 후 오디오 패키지 출력
+            delegate?.didGetAACSampleBuffer(outputBuffer) // 인코딩된 데이터
         }
         
         for buffer in outputData {

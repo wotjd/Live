@@ -2,8 +2,8 @@
 //  AVCEncoder.swift
 //  Capture
 //
-//  Created by VictorChee on 2016/12/22.
-//  Copyright © 2016年 VictorChee. All rights reserved.
+//  Created by wotjd on 2018. 9. 14..
+//  Copyright © 2018년 wotjd. All rights reserved.
 //
 
 import UIKit
@@ -77,7 +77,7 @@ final class AVCEncoder: NSObject {
         }
     }
     
-    /// @see about bitrate: https://zh.wikipedia.org/wiki/比特率
+    /// @see about bitrate: https://ko.wikipedia.org/wiki/비트레이트
     var bitrate: UInt32 = 200 * 1000 {
         didSet {
             if self.bitrate != oldValue {
@@ -107,7 +107,7 @@ final class AVCEncoder: NSObject {
     fileprivate var session: VTCompressionSession?
     fileprivate var formatDescription: CMFormatDescription?
     
-    /// 编码成功回调
+    /// 인코딩 성공 콜백
     fileprivate var callback: VTCompressionOutputCallback = {(
         outputCallbackRefCon:UnsafeMutableRawPointer?,
         sourceFrameRefCon:UnsafeMutableRawPointer?,
@@ -115,7 +115,7 @@ final class AVCEncoder: NSObject {
         infoFlags:VTEncodeInfoFlags,
         sampleBuffer:CMSampleBuffer?
         ) in
-        // 编码完成的数据
+        // 인코딩 된 데이터
         guard let sampleBuffer = sampleBuffer, status == noErr, infoFlags != .frameDropped else { return }
         let encoder = unsafeBitCast(outputCallbackRefCon, to: AVCEncoder.self)
         let isKeyFrame = !CFDictionaryContainsKey(unsafeBitCast(CFArrayGetValueAtIndex(CMSampleBufferGetSampleAttachmentsArray(sampleBuffer, true), 0), to: CFDictionary.self), unsafeBitCast(kCMSampleAttachmentKey_NotSync, to: UnsafeRawPointer.self))
@@ -141,7 +141,7 @@ final class AVCEncoder: NSObject {
             kCVPixelBufferHeightKey: NSNumber(value: height),
             kCVPixelBufferWidthKey: NSNumber(value: width),
         ]
-        let _ = VTCompressionSessionCreate(kCFAllocatorDefault, height, width, kCMVideoCodecType_H264, nil, attributes as CFDictionary?, nil, callback, unsafeBitCast(self, to: UnsafeMutableRawPointer.self), &session) // 宽和高设置反了，只能看到视频中间部分图像
+        let _ = VTCompressionSessionCreate(kCFAllocatorDefault, height, width, kCMVideoCodecType_H264, nil, attributes as CFDictionary?, nil, callback, unsafeBitCast(self, to: UnsafeMutableRawPointer.self), &session) // 너비와 높이 설정이 바뀌고 비디오의 중간 부분 만 보입니다.
         
         let profileLevel = kVTProfileLevel_H264_Baseline_3_1 as String
         let isBaseline = profileLevel.contains("Baseline")
@@ -149,9 +149,9 @@ final class AVCEncoder: NSObject {
         var properties: [NSString: Any] = [
             kVTCompressionPropertyKey_RealTime: kCFBooleanTrue,
             kVTCompressionPropertyKey_ProfileLevel: profileLevel,
-            kVTCompressionPropertyKey_AverageBitRate: Int(bitrate), // 平均码率（bps）
-            kVTCompressionPropertyKey_ExpectedFrameRate: NSNumber(value: fps), // 期望帧率
-            kVTCompressionPropertyKey_MaxKeyFrameIntervalDuration: NSNumber(value: keyFrameIntervalDuration), // 关键帧（GOPsize）间隔
+            kVTCompressionPropertyKey_AverageBitRate: Int(bitrate), // 평균 비트 전송률（bps）
+            kVTCompressionPropertyKey_ExpectedFrameRate: NSNumber(value: fps), // 예상 프레임 레이트
+            kVTCompressionPropertyKey_MaxKeyFrameIntervalDuration: NSNumber(value: keyFrameIntervalDuration), // 키 프레임（GOPsize） 간격
             kVTCompressionPropertyKey_AllowFrameReordering: !isBaseline,
             kVTCompressionPropertyKey_PixelTransferProperties: [
                 "ScalingMode": "Trim"]
@@ -174,7 +174,7 @@ final class AVCEncoder: NSObject {
             VTCompressionSessionInvalidate(session)
         }
         self.session = nil
-        formatDescription = nil // 必须置空，否则，再次推流的时候不会发送sps, pps，在某些服务器上不能播放
+        formatDescription = nil // nil 로 설정돼야함. 안하면 다시할 때 sps, pps가 전송되지 않으며 일부 서버에서는 재생되지 않음
     }
     
     func encode(sampleBuffer: CMSampleBuffer) {

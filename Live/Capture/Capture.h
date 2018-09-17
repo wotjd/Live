@@ -2,8 +2,8 @@
 //  Capture.h
 //  Capture
 //
-//  Created by VictorChee on 2017/6/30.
-//  Copyright © 2017年 VictorChee. All rights reserved.
+//  Created by wotjd on 2018. 9. 14..
+//  Copyright © 2018년 wotjd. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

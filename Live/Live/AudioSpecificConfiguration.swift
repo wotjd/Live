@@ -2,8 +2,8 @@
 //  AudioSpecificConfiguration.swift
 //  Capture
 //
-//  Created by VictorChee on 2016/12/22.
-//  Copyright © 2016年 VictorChee. All rights reserved.
+//  Created by wotjd on 2018. 9. 14..
+//  Copyright © 2018년 wotjd. All rights reserved.
 //
 
 import Foundation
@@ -25,7 +25,7 @@ struct AudioSpecificConfiguration {
     var frameLengthFlag = false
     
     var bytes:[UInt8] {
-        // 音频同步包后两个字节。@see http://billhoo.blog.51cto.com/2337751/1557646
+        // Audio Sync Packet 다음 2 바이트。@see http://billhoo.blog.51cto.com/2337751/1557646
         var bytes:[UInt8] = [UInt8](repeating: 0, count: 2)
         bytes[0] = type.rawValue << 3 | (frequency.rawValue >> 1 & 0x3)
         bytes[1] = (frequency.rawValue & 0x1) << 7 | (channel.rawValue & 0xF) << 3
@@ -56,7 +56,7 @@ struct AudioSpecificConfiguration {
         channel = ChannelConfiguration(rawValue: UInt8(asbd.mChannelsPerFrame))!
     }
     
-    /// adts头是一个7bit的数据，通过adts可以获得AAC数据的编码参数
+    /// adts 헤더는 7 비트 데이터이며, AAC 데이터의 인코딩 파라미터는 adts를 통해 얻을 수 있습니다.
     func adts(_ length:Int) -> [UInt8] {
         let size:Int = 7
         let fullSize:Int = size + length

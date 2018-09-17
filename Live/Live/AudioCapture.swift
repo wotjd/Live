@@ -2,8 +2,8 @@
 //  AudioCapture.swift
 //  Capture
 //
-//  Created by VictorChee on 2016/12/22.
-//  Copyright © 2016年 VictorChee. All rights reserved.
+//  Created by wotjd on 2018. 9. 14..
+//  Copyright © 2018년 wotjd. All rights reserved.
 //
 
 import UIKit
@@ -12,7 +12,7 @@ import AVFoundation
 final class AudioCapture: NSObject {
     fileprivate let captureQueue = DispatchQueue(label: "AudioCaptureQueue")
     
-    /// 由外部传入，因为要和Video Capture共享同一个sesstion
+    /// VideoCapture 와 동일한 세션
     var session: AVCaptureSession?
     fileprivate var captureOutput: AVCaptureAudioDataOutput?
     fileprivate var captureInput: AVCaptureDeviceInput?
@@ -68,6 +68,6 @@ extension AudioCapture: AVCaptureAudioDataOutputSampleBufferDelegate {
     typealias OutputHandler = (_ sampleBuffer: CMSampleBuffer) -> Void
     
     func captureOutput(_ captureOutput: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        self.outputHandler?(sampleBuffer) // 未编码的PCM数据
+        self.outputHandler?(sampleBuffer) // 인코딩되지 않은 데이터 (PCM)
     }
 }

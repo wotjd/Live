@@ -12,6 +12,8 @@
 		1F2FF3CB1F0621A40066AAAB /* Capture.h in Headers */ = {isa = PBXBuildFile; fileRef = 1F2FF3BB1F0621A40066AAAB /* Capture.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1F2FF3CE1F0621A40066AAAB /* Capture.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F2FF3B91F0621A40066AAAB /* Capture.framework */; };
 		1F2FF3CF1F0621A40066AAAB /* Capture.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1F2FF3B91F0621A40066AAAB /* Capture.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		2FC4CB08214BC163000B548E /* LiveRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC4CB07214BC163000B548E /* LiveRecorder.swift */; };
+		2FC4CB0A214BE199000B548E /* AVWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC4CB09214BE199000B548E /* AVWriter.swift */; };
 		F05E78341E5DB6510085AAD3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05E78331E5DB6510085AAD3 /* AppDelegate.swift */; };
 		F05E78361E5DB6510085AAD3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05E78351E5DB6510085AAD3 /* ViewController.swift */; };
 		F05E78391E5DB6510085AAD3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F05E78371E5DB6510085AAD3 /* Main.storyboard */; };
@@ -35,13 +37,11 @@
 		F05E78A61E60616D0085AAD3 /* Amf0.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05E789B1E60616D0085AAD3 /* Amf0.swift */; };
 		F05E78B01E6061840085AAD3 /* AudioCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05E78A71E6061840085AAD3 /* AudioCapture.swift */; };
 		F05E78B11E6061840085AAD3 /* VideoCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05E78A81E6061840085AAD3 /* VideoCapture.swift */; };
-		F05E78B21E6061840085AAD3 /* VideoPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05E78A91E6061840085AAD3 /* VideoPreviewView.swift */; };
 		F05E78B31E6061840085AAD3 /* AACEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05E78AA1E6061840085AAD3 /* AACEncoder.swift */; };
 		F05E78B41E6061840085AAD3 /* AVCEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05E78AB1E6061840085AAD3 /* AVCEncoder.swift */; };
 		F05E78B51E6061840085AAD3 /* AudioSpecificConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05E78AC1E6061840085AAD3 /* AudioSpecificConfiguration.swift */; };
 		F05E78B61E6061840085AAD3 /* FLV.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05E78AD1E6061840085AAD3 /* FLV.swift */; };
 		F05E78B71E6061840085AAD3 /* RTMPMuxer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05E78AE1E6061840085AAD3 /* RTMPMuxer.swift */; };
-		F05E78B81E6061840085AAD3 /* LivePublishClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05E78AF1E6061840085AAD3 /* LivePublishClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -111,6 +111,8 @@
 		1F2FF3C11F0621A40066AAAB /* CaptureTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CaptureTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F2FF3C81F0621A40066AAAB /* CaptureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureTests.swift; sourceTree = "<group>"; };
 		1F2FF3CA1F0621A40066AAAB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2FC4CB07214BC163000B548E /* LiveRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveRecorder.swift; sourceTree = "<group>"; };
+		2FC4CB09214BE199000B548E /* AVWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVWriter.swift; sourceTree = "<group>"; };
 		F05E78301E5DB6510085AAD3 /* Live.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Live.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F05E78331E5DB6510085AAD3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F05E78351E5DB6510085AAD3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -137,13 +139,11 @@
 		F05E789B1E60616D0085AAD3 /* Amf0.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Amf0.swift; sourceTree = "<group>"; };
 		F05E78A71E6061840085AAD3 /* AudioCapture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioCapture.swift; path = ../Live/AudioCapture.swift; sourceTree = "<group>"; };
 		F05E78A81E6061840085AAD3 /* VideoCapture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VideoCapture.swift; path = ../Live/VideoCapture.swift; sourceTree = "<group>"; };
-		F05E78A91E6061840085AAD3 /* VideoPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VideoPreviewView.swift; path = ../Live/VideoPreviewView.swift; sourceTree = "<group>"; };
 		F05E78AA1E6061840085AAD3 /* AACEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AACEncoder.swift; path = ../Live/AACEncoder.swift; sourceTree = "<group>"; };
 		F05E78AB1E6061840085AAD3 /* AVCEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AVCEncoder.swift; path = ../Live/AVCEncoder.swift; sourceTree = "<group>"; };
 		F05E78AC1E6061840085AAD3 /* AudioSpecificConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioSpecificConfiguration.swift; path = ../Live/AudioSpecificConfiguration.swift; sourceTree = "<group>"; };
 		F05E78AD1E6061840085AAD3 /* FLV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FLV.swift; path = ../Live/FLV.swift; sourceTree = "<group>"; };
 		F05E78AE1E6061840085AAD3 /* RTMPMuxer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RTMPMuxer.swift; path = ../Live/RTMPMuxer.swift; sourceTree = "<group>"; };
-		F05E78AF1E6061840085AAD3 /* LivePublishClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LivePublishClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,7 +195,6 @@
 				1F2FF3BB1F0621A40066AAAB /* Capture.h */,
 				F05E78A71E6061840085AAD3 /* AudioCapture.swift */,
 				F05E78A81E6061840085AAD3 /* VideoCapture.swift */,
-				F05E78A91E6061840085AAD3 /* VideoPreviewView.swift */,
 				F05E78AA1E6061840085AAD3 /* AACEncoder.swift */,
 				F05E78AB1E6061840085AAD3 /* AVCEncoder.swift */,
 				F05E78AC1E6061840085AAD3 /* AudioSpecificConfiguration.swift */,
@@ -242,7 +241,8 @@
 			children = (
 				F05E78331E5DB6510085AAD3 /* AppDelegate.swift */,
 				F05E78351E5DB6510085AAD3 /* ViewController.swift */,
-				F05E78AF1E6061840085AAD3 /* LivePublishClient.swift */,
+				2FC4CB07214BC163000B548E /* LiveRecorder.swift */,
+				2FC4CB09214BE199000B548E /* AVWriter.swift */,
 				F05E78371E5DB6510085AAD3 /* Main.storyboard */,
 				F05E783A1E5DB6510085AAD3 /* Assets.xcassets */,
 				F05E783C1E5DB6510085AAD3 /* LaunchScreen.storyboard */,
@@ -422,7 +422,7 @@
 					};
 					F05E782F1E5DB6500085AAD3 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 8F4GU35MC5;
+						DevelopmentTeam = BY96HCBY6M;
 						LastSwiftMigration = 0930;
 						ProvisioningStyle = Automatic;
 					};
@@ -529,10 +529,10 @@
 				F05E78B11E6061840085AAD3 /* VideoCapture.swift in Sources */,
 				F05E78B31E6061840085AAD3 /* AACEncoder.swift in Sources */,
 				F05E78B71E6061840085AAD3 /* RTMPMuxer.swift in Sources */,
+				2FC4CB0A214BE199000B548E /* AVWriter.swift in Sources */,
 				F05E78B51E6061840085AAD3 /* AudioSpecificConfiguration.swift in Sources */,
-				F05E78B21E6061840085AAD3 /* VideoPreviewView.swift in Sources */,
 				F05E78B61E6061840085AAD3 /* FLV.swift in Sources */,
-				F05E78B81E6061840085AAD3 /* LivePublishClient.swift in Sources */,
+				2FC4CB08214BC163000B548E /* LiveRecorder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -813,10 +813,11 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 8F4GU35MC5;
+				DEVELOPMENT_TEAM = BY96HCBY6M;
 				INFOPLIST_FILE = Live/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.victorchee.Live;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wotjd.Live;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
@@ -828,10 +829,11 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 8F4GU35MC5;
+				DEVELOPMENT_TEAM = BY96HCBY6M;
 				INFOPLIST_FILE = Live/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.victorchee.Live;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wotjd.Live;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;

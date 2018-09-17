@@ -2,8 +2,8 @@
 //  VideoCapture.swift
 //  Capture
 //
-//  Created by VictorChee on 2016/12/22.
-//  Copyright © 2016年 VictorChee. All rights reserved.
+//  Created by wotjd on 2018. 9. 14..
+//  Copyright © 2018년 wotjd. All rights reserved.
 //
 
 import UIKit
@@ -12,9 +12,10 @@ import AVFoundation
 final class VideoCapture: NSObject {
     fileprivate let captureQueue = DispatchQueue(label: "VideoCapture")
     
-    let videoPreviewView = VideoPreviewView()
+    var previewLayer : AVCaptureVideoPreviewLayer!
     
-    /// 由外部传入，因为要和Audio Capture共享同一个sesstion
+    
+    /// AudioCapture 와 동일한 세션
     var session: AVCaptureSession?
     fileprivate var captureOutput: AVCaptureVideoDataOutput?
     fileprivate var captureInput: AVCaptureDeviceInput?
@@ -32,17 +33,13 @@ final class VideoCapture: NSObject {
     // MARK: - Configurations
     
     fileprivate func configureVideoOrientation() {
-        if let connection = videoPreviewView.layer.value(forKey: "connection") as? AVCaptureConnection, connection.isVideoOrientationSupported {
-            connection.videoOrientation = videoOrientation
-        }
-        
         if let output = captureOutput, let connection = output.connection(with: AVMediaType.video), connection.isVideoOrientationSupported {
             connection.videoOrientation = videoOrientation
         }
     }
     
     fileprivate func configureVideoPreview() {
-        videoPreviewView.session = session
+        previewLayer = AVCaptureVideoPreviewLayer(session: session!)
     }
     
     fileprivate func configureCaptureOutput() {
@@ -60,7 +57,6 @@ final class VideoCapture: NSObject {
         }
         
         for connection in captureOutput!.connections {
-            guard let connection = connection as? AVCaptureConnection else { continue }
             if connection.isVideoOrientationSupported {
                 connection.videoOrientation = videoOrientation
             }
@@ -112,6 +108,6 @@ extension VideoCapture: AVCaptureVideoDataOutputSampleBufferDelegate {
     typealias OutputHandler = (_ sampleBuffer: CMSampleBuffer) -> Void
     
     func captureOutput(_ captureOutput: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        self.outputHandler?(sampleBuffer) // 未编码的数据
+        self.outputHandler?(sampleBuffer) // 인코딩되지 않은 데이터 (yuv)
     }
 }
